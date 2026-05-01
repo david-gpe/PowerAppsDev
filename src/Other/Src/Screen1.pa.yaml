@@ -1,0 +1,1149 @@
+# ************************************************************************************************
+# Warning: YAML source code for Canvas Apps should only be used to review changes made within Power Apps Studio and for minor edits (Preview).
+# Use the maker portal to create and edit your Power Apps.
+# 
+# The schema file for Canvas Apps is available at https://go.microsoft.com/fwlink/?linkid=2304907
+# 
+# For more information, visit https://go.microsoft.com/fwlink/?linkid=2292623
+# ************************************************************************************************
+Screens:
+  Screen1:
+    Properties:
+      OnVisible: |-
+        =Set(tabPadreSeleccionado, 1);
+        Set(tabHijoSeleccionado, 1);
+        Set(_idSeccion, 1);
+        Set(menuSeleccionado, 1);
+        Set(menuColapsado, false);
+
+        ClearCollect(
+            colMenuDatosBase,
+            {id: 1, nombre: "Datos Base"},
+            {id: 2, nombre: "Documentos Base"},
+            {id: 3, nombre: "Pagos Base"}
+        );
+
+        ClearCollect(
+            colPagos,
+            {
+                id: 1,
+                fecha: Date(2024, 4, 22),
+                concepto: "Traslado de Reunion",
+                importe: 1200,
+                formaPago: "Efectivo",
+                estatus: "Aprobado"
+            },
+            {
+                id: 2,
+                fecha: Date(2024, 4, 20),
+                concepto: "Compra de Base",
+                importe: 3500,
+                formaPago: "Transferencia",
+                estatus: "Pendiente"
+            },
+            {
+                id: 3,
+                fecha: Date(2024, 4, 18),
+                concepto: "Material de Presentacion",
+                importe: 860,
+                formaPago: "Tarjeta",
+                estatus: "Rechazado"
+            }
+        )
+    Children:
+      - Container1:
+          Control: GroupContainer@1.5.0
+          Variant: ManualLayout
+          Properties:
+            Height: =768
+            Width: =1366
+          Children:
+            - ContainerFooter:
+                Control: GroupContainer@1.5.0
+                Variant: ManualLayout
+                Properties:
+                  Height: =48
+                  Width: =1366
+                  Y: =719
+                Children:
+                  - Rectangle3:
+                      Control: Rectangle@2.3.0
+                      Properties:
+                        Fill: = RGBA(20, 40, 80, 1)
+                        Height: =62
+                        Width: =1366
+                  - Label2:
+                      Control: Label@2.5.1
+                      Properties:
+                        Align: =Align.Center
+                        Color: =RGBA(255, 255, 255, 1)
+                        Size: =20
+                        Text: ="Metlife | 2026"
+                        Width: =291
+                        X: =491
+            - bodyContainer:
+                Control: GroupContainer@1.5.0
+                Variant: ManualLayout
+                Properties:
+                  Height: =655
+                  Width: =1366
+                  Y: =64
+                Children:
+                  - ContainerDatosBase:
+                      Control: GroupContainer@1.5.0
+                      Variant: ManualLayout
+                      Properties:
+                        Height: =527
+                        Visible: =tabPadreSeleccionado = 2
+                        Width: =1125
+                        X: =134
+                        Y: =126
+                      Children:
+                        - Container8:
+                            Control: GroupContainer@1.5.0
+                            Variant: ManualLayout
+                            Properties:
+                              Height: =452
+                              Width: =299
+                              X: =12
+                              Y: =69
+                            Children:
+                              - Gallery1:
+                                  Control: Gallery@2.15.0
+                                  Variant: BrowseLayout_Vertical_TwoTextOneImageVariant_ver5.0
+                                  Properties:
+                                    Height: =452
+                                    Items: |-
+                                      =Table(
+                                          {id: 1, nombre: "Datos Base"},
+                                          {id: 2, nombre: "Documentos Base"},
+                                          {id: 3, nombre: "Pagos Base"}
+                                      )
+                                    OnSelect: =Set(menuColapsado, !menuColapsado)
+                                    TemplateSize: =62
+                                    Width: =If(menuColapsado, 60, 200)
+                                  Children:
+                                    - Label4:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: |-
+                                            =If(
+                                                ThisItem.id = menuSeleccionado,
+                                                RGBA(20, 40, 80, 1),
+                                                RGBA(120, 120, 120, 1)
+                                            )
+                                          Fill: |-
+                                            =If(
+                                                ThisItem.id = menuSeleccionado,
+                                                RGBA(230, 235, 245, 1),
+                                                RGBA(0,0,0,0)
+                                            )
+                                          FontWeight: |-
+                                            =If(
+                                                ThisItem.id = menuSeleccionado,
+                                                FontWeight.Semibold,
+                                                FontWeight.Normal
+                                            )
+                                          Height: =50
+                                          OnSelect: |-
+                                            =Set(menuSeleccionado, ThisItem.id);
+                                            Set(menuColapsado, false)
+                                          Text: =If(menuColapsado, "", ThisItem.nombre)
+                                          Width: =If(menuColapsado, 60, 200)
+                                          Y: =6
+                        - Label7:
+                            Control: Label@2.5.1
+                            Properties:
+                              Align: =Align.Center
+                              Text: =tabPadreTexto
+                              X: =447
+                              Y: =9
+                        - Container2:
+                            Control: GroupContainer@1.5.0
+                            Variant: ManualLayout
+                            Properties:
+                              Height: =458
+                              Width: =916
+                              X: =208
+                              Y: =69
+                            Children:
+                              - Gallery2:
+                                  Control: Gallery@2.15.0
+                                  Variant: BrowseLayout_Vertical_TwoTextOneImageVariant_ver5.0
+                                  Properties:
+                                    Height: =386
+                                    Items: =colPagos
+                                    TemplateSize: =60
+                                    Width: =876
+                                    X: =40
+                                    Y: =72
+                                  Children:
+                                    - Label8:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Align: =Align.Center
+                                          Height: =44
+                                          OnSelect: =Select(Parent)
+                                          Text: =Text(ThisItem.fecha, "dd/mm/yyyy")
+                                          Width: =102
+                                          X: =6
+                                          Y: =6
+                                    - Label8_1:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Align: =Align.Center
+                                          Height: =44
+                                          OnSelect: =Select(Parent)
+                                          Text: =ThisItem.concepto
+                                          Width: =168
+                                          X: =124
+                                          Y: =6
+                                    - Label8_2:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Align: =Align.Center
+                                          Height: =44
+                                          OnSelect: =Select(Parent)
+                                          Text: |-
+                                            =Text(ThisItem.importe, "$ #,###")
+                                          Width: =88
+                                          X: =306
+                                          Y: =6
+                                    - Label8_3:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Align: =Align.Center
+                                          Height: =44
+                                          OnSelect: =Select(Parent)
+                                          Text: =ThisItem.formaPago
+                                          Width: =147
+                                          X: =394
+                                          Y: =6
+                                    - Label8_4:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Align: =Align.Center
+                                          Color: =RGBA(255, 255, 255, 1)
+                                          Fill: |-
+                                            =Switch(
+                                                ThisItem.estatus,
+                                                "Aprobado", RGBA(56, 142, 60, 1),
+                                                "Pendiente", RGBA(255, 167, 38, 1),
+                                                "Rechazado", RGBA(211, 47, 47, 1)
+                                            )
+                                          Height: =44
+                                          OnSelect: =Select(Parent)
+                                          Text: =ThisItem.estatus
+                                          Width: =114
+                                          X: =541
+                                          Y: =6
+                                    - Icon6:
+                                        Control: Classic/Icon@2.5.0
+                                        Properties:
+                                          Height: =36
+                                          Icon: =Icon.Edit
+                                          OnSelect: |-
+                                            =Set(itemAEditar, ThisItem);
+                                            Set(editarRegistro, true)
+                                          Width: =47
+                                          X: =680
+                                          Y: =14
+                                    - Icon8:
+                                        Control: Classic/Icon@2.5.0
+                                        Properties:
+                                          Height: =36
+                                          Icon: =Icon.Erase
+                                          OnSelect: |-
+                                            =Set(itemAEliminar, ThisItem);
+                                            Set(eliminarRegistro, true)
+                                          Width: =43
+                                          X: =727
+                                          Y: =14
+                              - Label11:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    Align: =Align.Center
+                                    Fill: = RGBA(230, 235, 245, 1)
+                                    Text: ="Fecha"
+                                    Width: =146
+                                    X: =12
+                                    Y: =17
+                              - Label11_1:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    Align: =Align.Center
+                                    Fill: = RGBA(230, 235, 245, 1)
+                                    Text: ="Concepto"
+                                    Width: =186
+                                    X: =159
+                                    Y: =17
+                              - Label11_2:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    Align: =Align.Center
+                                    Fill: = RGBA(230, 235, 245, 1)
+                                    Text: ="Importe"
+                                    Width: =101
+                                    X: =345
+                                    Y: =17
+                              - Label11_3:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    Align: =Align.Center
+                                    Fill: = RGBA(230, 235, 245, 1)
+                                    Text: ="Forma de pago"
+                                    Width: =151
+                                    X: =446
+                                    Y: =17
+                              - Label11_4:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    Align: =Align.Center
+                                    Fill: = RGBA(230, 235, 245, 1)
+                                    Text: =
+                                    Width: =291
+                                    X: =597
+                                    Y: =17
+                  - ContainerForm:
+                      Control: GroupContainer@1.5.0
+                      Variant: ManualLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        Height: =512
+                        Visible: =tabPadreSeleccionado = 1
+                        Width: =1098
+                        X: =134
+                        Y: =126
+                      Children:
+                        - Container6:
+                            Control: GroupContainer@1.5.0
+                            Variant: ManualLayout
+                            Properties:
+                              Height: =446
+                              Visible: =_idSeccion = 1
+                              Width: =1007
+                              Y: =52
+                            Children:
+                              - Container10:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: ManualLayout
+                                  Properties:
+                                    Height: =163
+                                    Width: =983
+                                    X: =9
+                                  Children:
+                                    - Label5_1:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Align: =Align.Center
+                                          Color: =RGBA(15, 84, 140, 1)
+                                          X: =409
+                                    - modernDropdown1:
+                                        Control: ModernDropdown@1.0.0
+                                        Properties:
+                                          Color: =RGBA(12, 59, 94, 1)
+                                          Height: =33
+                                          Width: =266
+                                          X: =78
+                                          Y: =40
+                                    - Label5:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Align: =Align.Center
+                                          Color: =RGBA(12, 59, 94, 1)
+                                          X: =78
+                                    - modernDropdown1_1:
+                                        Control: ModernDropdown@1.0.0
+                                        Properties:
+                                          Height: =33
+                                          Width: =266
+                                          X: =409
+                                          Y: =40
+                                    - Label5_2:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Align: =Align.Center
+                                          Color: =RGBA(15, 84, 140, 1)
+                                          X: =409
+                                          Y: =73
+                                    - Label5_3:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Align: =Align.Center
+                                          Color: =RGBA(12, 59, 94, 1)
+                                          X: =78
+                                          Y: =73
+                                    - modernDropdown1_3:
+                                        Control: ModernDropdown@1.0.0
+                                        Properties:
+                                          Height: =33
+                                          Width: =266
+                                          X: =409
+                                          Y: =113
+                                    - Label5_4:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Align: =Align.Center
+                                          Color: =RGBA(15, 84, 140, 1)
+                                          X: =699
+                                          Y: =73
+                                    - modernDropdown1_4:
+                                        Control: ModernDropdown@1.0.0
+                                        Properties:
+                                          Height: =33
+                                          Width: =266
+                                          X: =699
+                                          Y: =113
+                        - Gallery4:
+                            Control: Gallery@2.15.0
+                            Variant: BrowseLayout_Horizontal_TwoTextOneImageOverlayVariant_ver5.0
+                            Properties:
+                              BorderColor: =RGBA(245, 245, 245, 1)
+                              Height: =52
+                              Items: |-
+                                =Table(
+                                    {id: 1, seccion: "Información General"},
+                                    {id: 2, seccion: "Dirección"},
+                                    {id: 3, seccion: "Contacto"},
+                                    {id: 4, seccion: "Responsable"},
+                                    {id: 5, seccion: "Otro"}
+                                )
+                              ShowScrollbar: =false
+                              TemplateSize: =200
+                              Width: =1007
+                            Children:
+                              - Button7:
+                                  Control: Classic/Button@2.2.0
+                                  Properties:
+                                    Color: |-
+                                      =If(
+                                          ThisItem.id = tabSeleccionado,
+                                          Color.White,
+                                          RGBA(50, 50, 50, 1)
+                                      )
+                                    Fill: |-
+                                      =If(
+                                          ThisItem.id = tabSeleccionado,
+                                          RGBA(20, 40, 80, 1),   // azul marino
+                                          RGBA(230, 230, 230, 1) // gris claro
+                                      )
+                                    FontWeight: =FontWeight.Normal
+                                    Height: =41
+                                    OnSelect: |-
+                                      =Set(_idSeccion, ThisItem.id);
+                                      Set(tabSeleccionado, ThisItem.id)
+                                    RadiusBottomRight: =
+                                    RadiusTopRight: =30
+                                    Size: =10
+                                    Text: =ThisItem.seccion
+                                    Width: =194
+                                    X: =5
+                                    Y: =5
+                  - ContainerTabHeader:
+                      Control: GroupContainer@1.5.0
+                      Variant: ManualLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        Height: =55
+                        Width: =1366
+                        Y: =71
+                      Children:
+                        - GalleryTabHeader:
+                            Control: Gallery@2.15.0
+                            Variant: BrowseLayout_Horizontal_TwoTextOneImageOverlayVariant_ver5.0
+                            Properties:
+                              BorderColor: =RGBA(245, 245, 245, 1)
+                              Height: =41
+                              Items: |-
+                                =Table(
+                                    {id: 1, seccion: "Generales"},
+                                    {id: 2, seccion: "Datos Base"},
+                                    {id: 3, seccion: "Historico"},
+                                    {id: 4, seccion: "Tareas"}
+                                )
+                              ShowScrollbar: =false
+                              TemplateSize: =200
+                              Width: =994
+                              X: =20
+                              Y: =14
+                            Children:
+                              - Label6:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    Align: =Align.Center
+                                    Color: |-
+                                      =If(
+                                          ThisItem.id = tabPadreSeleccionado,
+                                          RGBA(20, 40, 80, 1),   // azul
+                                          RGBA(120, 120, 120, 1) // gris
+                                      )
+                                    Fill: |-
+                                      =If(
+                                          ThisItem.id = tabPadreSeleccionado,
+                                          RGBA(230, 235, 245, 1),
+                                          RGBA(0,0,0,0)
+                                      )
+                                    FontWeight: |-
+                                      =If(
+                                          ThisItem.id = tabPadreSeleccionado,
+                                          FontWeight.Semibold,
+                                          FontWeight.Normal
+                                      )
+                                    HoverColor: =RGBA(20, 40, 80, 1)
+                                    OnSelect: =Set(tabPadreSeleccionado, ThisItem.id); Set(tabPadreTexto, ThisItem.seccion)
+                                    Text: =ThisItem.seccion
+                                    Underline: =ThisItem.id = tabPadreSeleccionado
+                                    X: =18
+                  - ContainerInformation:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        Height: =71
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutDirection: =LayoutDirection.Horizontal
+                        LayoutGap: =20
+                        LayoutJustifyContent: =LayoutJustifyContent.SpaceBetween
+                        PaddingBottom: =8
+                        PaddingLeft: =8
+                        PaddingRight: =8
+                        PaddingTop: =8
+                        Width: =1366
+                      Children:
+                        - Icon2:
+                            Control: Classic/Icon@2.5.0
+                            Properties:
+                              Height: =30
+                              Icon: =Icon.ChevronLeft
+                              LayoutMinHeight: =16
+                              LayoutMinWidth: =16
+                              Width: =30
+                        - Icon3:
+                            Control: Classic/Icon@2.5.0
+                            Properties:
+                              AlignInContainer: =AlignInContainer.End
+                              Height: =30
+                              Icon: =Icon.More
+                              LayoutMinHeight: =16
+                              LayoutMinWidth: =16
+                              Width: =20
+                        - Container13:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              LayoutAlignItems: =LayoutAlignItems.Center
+                              LayoutDirection: =LayoutDirection.Horizontal
+                              LayoutGap: =30
+                              LayoutMinHeight: =16
+                              LayoutMinWidth: =16
+                              PaddingBottom: =8
+                              PaddingLeft: =200
+                              PaddingRight: =8
+                              PaddingTop: =8
+                            Children:
+                              - Button8:
+                                  Control: Classic/Button@2.2.0
+                                  Properties:
+                                    Color: =Color.Gray
+                                    DisplayMode: =DisplayMode.Disabled
+                                    Fill: =RGBA(230, 230, 230, 1)
+                                    LayoutMinHeight: =16
+                                    LayoutMinWidth: =16
+                                    RadiusBottomLeft: =20
+                                    RadiusBottomRight: =20
+                                    RadiusTopLeft: =20
+                                    RadiusTopRight: =20
+                                    Text: ="Nueva"
+                              - Button9:
+                                  Control: Classic/Button@2.2.0
+                                  Properties:
+                                    Color: =Color.Gray
+                                    DisplayMode: =DisplayMode.Disabled
+                                    Fill: =RGBA(230, 230, 230, 1)
+                                    LayoutMinHeight: =16
+                                    LayoutMinWidth: =16
+                                    RadiusBottomLeft: =20
+                                    RadiusBottomRight: =20
+                                    RadiusTopLeft: =20
+                                    RadiusTopRight: =20
+                                    Text: ="Pedro Hernandez Mendez"
+                                    Width: =300
+            - headerContainer:
+                Control: GroupContainer@1.5.0
+                Variant: AutoLayout
+                Properties:
+                  Height: =64
+                  LayoutAlignItems: =LayoutAlignItems.Center
+                  LayoutDirection: =LayoutDirection.Horizontal
+                  PaddingBottom: =8
+                  PaddingLeft: =8
+                  PaddingRight: =8
+                  PaddingTop: =8
+                  Width: =1366
+                Children:
+                  - Container4:
+                      Control: GroupContainer@1.5.0
+                      Variant: ManualLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        LayoutMinHeight: =16
+                        LayoutMinWidth: =16
+                      Children:
+                        - Container3:
+                            Control: GroupContainer@1.5.0
+                            Variant: ManualLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              Height: =88
+                              Width: =250
+                            Children:
+                              - Icon4:
+                                  Control: Classic/Icon@2.5.0
+                                  Properties:
+                                    BorderColor: =RGBA(0, 0, 0, 0)
+                                    Color: =RGBA(0, 120, 212, 1)
+                                    DisabledBorderColor: =RGBA(245, 245, 245, 1)
+                                    DisabledColor: =RGBA(225, 223, 221, 1)
+                                    DisabledFill: =RGBA(0, 0, 0, 0)
+                                    FocusedBorderThickness: =4
+                                    Height: =44
+                                    HoverBorderColor: =RGBA(0, 0, 0, 0)
+                                    HoverColor: =RGBA(16, 110, 190, 1)
+                                    HoverFill: =RGBA(0, 0, 0, 0)
+                                    Icon: =Icon.Hamburger
+                                    OnSelect: =Set(menuAbierto, !menuAbierto)
+                                    PressedBorderColor: =RGBA(0, 0, 0, 0)
+                                    PressedColor: =RGBA(16, 110, 190, 1)
+                                    PressedFill: =RGBA(0, 0, 0, 0)
+                  - Container5:
+                      Control: GroupContainer@1.5.0
+                      Variant: ManualLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        LayoutMinHeight: =16
+                        LayoutMinWidth: =16
+                      Children:
+                        - Text1:
+                            Control: ModernText@1.0.0
+                            Properties:
+                              Align: =Align.Center
+                              FontWeight: =FontWeight.Semibold
+                              Height: =47
+                              Size: =30
+                              Text: ="Dashboard"
+                              Width: =447
+                  - Container7:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        LayoutAlignItems: =LayoutAlignItems.End
+                        LayoutDirection: =LayoutDirection.Horizontal
+                        LayoutJustifyContent: =LayoutJustifyContent.End
+                        LayoutMinHeight: =16
+                        LayoutMinWidth: =16
+                        LayoutWrap: =true
+                        PaddingBottom: =8
+                        PaddingLeft: =8
+                        PaddingRight: =8
+                        PaddingTop: =8
+                      Children:
+                        - Icon5:
+                            Control: Classic/Icon@2.5.0
+                            Properties:
+                              BorderColor: =RGBA(0, 0, 0, 0)
+                              BorderThickness: =5
+                              Color: =RGBA(255, 191, 0, 1)
+                              DisabledBorderColor: =RGBA(255, 255, 0, 1)
+                              DisabledColor: =RGBA(225, 223, 221, 1)
+                              DisabledFill: =RGBA(0, 0, 0, 0)
+                              FocusedBorderThickness: =4
+                              Height: =44
+                              HoverBorderColor: =RGBA(0, 0, 0, 0)
+                              HoverColor: =RGBA(16, 110, 190, 1)
+                              HoverFill: =RGBA(0, 0, 0, 0)
+                              Icon: =Icon.Bell
+                              PressedBorderColor: =RGBA(0, 0, 0, 0)
+                              PressedColor: =RGBA(16, 110, 190, 1)
+                              PressedFill: =RGBA(0, 0, 0, 0)
+                              X: =518
+                        - ContainerPerfil:
+                            Control: GroupContainer@1.5.0
+                            Variant: ManualLayout
+                            Properties:
+                              AlignInContainer: =AlignInContainer.Start
+                              DropShadow: =DropShadow.Semibold
+                              Height: =Parent.Height
+                              LayoutMinHeight: =16
+                              LayoutMinWidth: =16
+                              RadiusBottomLeft: =150
+                              RadiusBottomRight: =150
+                              RadiusTopLeft: =150
+                              RadiusTopRight: =150
+                              Width: =Parent.Width
+                            Children:
+                              - Circle1:
+                                  Control: Circle@2.3.0
+                                  Properties:
+                                    BorderColor: =Color.Black
+                                    Fill: =Color.LightGray
+                                    Height: =32
+                                    Width: =50
+                                    X: =17
+                                    Y: =8
+                              - LabelNombre:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    Text: ="David Guadalupe Maldonado"
+                                    Width: =258
+                                    X: =80
+                                    Y: =4
+                              - RectanglePerfil:
+                                  Control: Rectangle@2.3.0
+                                  Properties:
+                                    Fill: =RGBA(0,0,0,0)
+                                    Height: =44
+                                    OnSelect: =Set(mostrarPerfil, true)
+                                    Width: =370
+                                    Y: =4
+                              - Label3:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    Height: =32
+                                    Text: |-
+                                      =Upper(
+                                          Left(First(Split(LabelNombre.Text, " ")).Value, 1) &
+                                          Left(Last(Split(LabelNombre.Text, " ")).Value, 1)
+                                      )
+                                    Width: =40
+                                    X: =22
+                                    Y: =8
+      - ContainerPopUp:
+          Control: GroupContainer@1.5.0
+          Variant: ManualLayout
+          Group: PopUpPerfil
+          Properties:
+            Fill: =Color.White
+            Height: =558
+            Visible: =mostrarPerfil
+            Width: =1118
+            X: =99
+            Y: =144
+          Children:
+            - Rectangle2:
+                Control: Rectangle@2.3.0
+                Properties:
+                  BorderColor: =RGBA(0, 0, 0, 0)
+                  BorderStyle: =BorderStyle.None
+                  BorderThickness: =2
+                  DisabledFill: =RGBA(161, 159, 157, 1)
+                  Fill: =RGBA(0, 0, 0, 0.1)
+                  FocusedBorderThickness: =4
+                  Height: =470
+                  HoverFill: =RGBA(0, 120, 212, 1)
+                  OnSelect: =Set(mostrarPerfil, false)
+                  PressedFill: =RGBA(0, 120, 212, 1)
+                  Visible: =mostrarPerfil
+                  Width: =956
+            - Button2:
+                Control: Classic/Button@2.2.0
+                Properties:
+                  BorderColor: =RGBA(0, 0, 0, 0)
+                  BorderStyle: =BorderStyle.None
+                  Color: =RGBA(255, 255, 255, 1)
+                  DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                  DisabledColor: =RGBA(161, 159, 157, 1)
+                  DisabledFill: =RGBA(242, 242, 241, 0)
+                  Fill: =RGBA(0, 120, 212, 1)
+                  Font: =Font.'Segoe UI'
+                  HoverBorderColor: =RGBA(0, 0, 0, 0)
+                  HoverColor: =RGBA(255, 255, 255, 1)
+                  HoverFill: =RGBA(16, 110, 190, 1)
+                  OnSelect: =Set(mostrarPerfil, false)
+                  PressedBorderColor: =RGBA(0, 69, 120, 1)
+                  PressedColor: =RGBA(255, 255, 255, 1)
+                  PressedFill: =RGBA(16, 110, 190, 1)
+                  RadiusBottomLeft: =0
+                  RadiusBottomRight: =0
+                  RadiusTopLeft: =0
+                  RadiusTopRight: =0
+                  Text: ="X"
+                  X: =40
+                  Y: =40
+            - Label1:
+                Control: Label@2.5.1
+                Properties:
+                  BorderColor: =RGBA(0, 0, 0, 0)
+                  BorderStyle: =BorderStyle.None
+                  BorderThickness: =2
+                  Color: =RGBA(50, 49, 48, 1)
+                  DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                  DisabledColor: =RGBA(161, 159, 157, 1)
+                  FocusedBorderThickness: =4
+                  Font: =Font.'Segoe UI'
+                  Text: |-
+                    =
+                    usuario.Nombre
+                  X: =150
+                  Y: =98
+            - Label1_1:
+                Control: Label@2.5.1
+                Properties:
+                  BorderColor: =RGBA(0, 0, 0, 0)
+                  BorderStyle: =BorderStyle.None
+                  BorderThickness: =2
+                  Color: =RGBA(50, 49, 48, 1)
+                  DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                  DisabledColor: =RGBA(161, 159, 157, 1)
+                  FocusedBorderThickness: =4
+                  Font: =Font.'Segoe UI'
+                  Text: =usuario.Nombre
+                  X: =150
+                  Y: =112
+      - hamburguesaMenu:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            DisabledFill: =RGBA(161, 159, 157, 1)
+            Fill: =RGBA(0, 120, 212, 0.3)
+            FocusedBorderThickness: =4
+            Height: =712
+            HoverFill: =RGBA(0, 120, 212, 1)
+            PressedFill: =RGBA(0, 120, 212, 1)
+            Visible: =menuAbierto
+            Width: =672
+            Y: =56
+      - RectangleOverlay:
+          Control: Rectangle@2.3.0
+          Group: PopUpPerfil
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            DisabledFill: =RGBA(161, 159, 157, 1)
+            Fill: =RGBA(0, 0, 0, 0.1)
+            FocusedBorderThickness: =4
+            Height: =768
+            OnSelect: =Set(mostrarPerfil, false)
+            Visible: =mostrarPerfil
+            Width: =1366
+      - RectangleOverlayEliminar:
+          Control: Rectangle@2.3.0
+          Group: PopUpEliminar
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            DisabledFill: =RGBA(161, 159, 157, 1)
+            Fill: =RGBA(0, 0, 0, 0.4)
+            FocusedBorderThickness: =4
+            Height: =768
+            OnSelect: =Set(eliminarRegistro, false)
+            Visible: =eliminarRegistro
+            Width: =1366
+      - ContainerPopUpEliminar:
+          Control: GroupContainer@1.5.0
+          Variant: ManualLayout
+          Group: PopUpEliminar
+          Properties:
+            Fill: =Color.White
+            Height: =446
+            Visible: =eliminarRegistro
+            Width: =920
+            X: =240
+            Y: =162
+          Children:
+            - Rectangle2_1:
+                Control: Rectangle@2.3.0
+                Properties:
+                  BorderColor: =RGBA(200, 200, 200, 1)
+                  BorderStyle: =BorderStyle.None
+                  BorderThickness: =2
+                  DisabledFill: =RGBA(161, 159, 157, 1)
+                  Fill: =RGBA(255, 255, 255, 1)
+                  FocusedBorderThickness: =4
+                  Height: =470
+                  HoverFill: =RGBA(0, 120, 212, 1)
+                  OnSelect: =Set(eliminarRegistro, false)
+                  PressedFill: =RGBA(0, 120, 212, 1)
+                  Visible: =mostrarPerfil
+                  Width: =956
+            - Button2_1:
+                Control: Classic/Button@2.2.0
+                Properties:
+                  BorderColor: =RGBA(0, 0, 0, 0)
+                  BorderStyle: =BorderStyle.None
+                  BorderThickness: =1
+                  Color: =RGBA(255, 255, 255, 1)
+                  DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                  DisabledColor: =RGBA(161, 159, 157, 1)
+                  DisabledFill: =RGBA(242, 242, 241, 0)
+                  Fill: =RGBA(211, 47, 47, 1)
+                  Font: =Font.'Segoe UI'
+                  HoverBorderColor: =RGBA(0, 0, 0, 0)
+                  HoverColor: =RGBA(255, 255, 255, 1)
+                  HoverFill: =RGBA(183, 28, 28, 1)
+                  OnSelect: =Set(eliminarRegistro, false)
+                  PressedBorderColor: =RGBA(0, 69, 120, 1)
+                  PressedColor: =RGBA(255, 255, 255, 1)
+                  PressedFill: =RGBA(16, 110, 190, 1)
+                  RadiusBottomLeft: =30
+                  RadiusBottomRight: =30
+                  RadiusTopLeft: =30
+                  RadiusTopRight: =30
+                  Text: ="Rechazar"
+                  X: =237
+                  Y: =306
+            - Button2_3:
+                Control: Classic/Button@2.2.0
+                Properties:
+                  BorderColor: =RGBA(0, 0, 0, 0)
+                  BorderStyle: =BorderStyle.None
+                  Color: =RGBA(255, 255, 255, 1)
+                  DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                  DisabledColor: =RGBA(161, 159, 157, 1)
+                  DisabledFill: =RGBA(242, 242, 241, 0)
+                  Fill: =RGBA(0, 120, 212, 1)
+                  Font: =Font.'Segoe UI'
+                  HoverBorderColor: =RGBA(0, 0, 0, 0)
+                  HoverColor: =RGBA(255, 255, 255, 1)
+                  HoverFill: =RGBA(16, 110, 190, 1)
+                  OnSelect: |-
+                    =Remove(colPagos, itemAEliminar);
+                    Set(itemAEliminar, Blank());
+                    Set(eliminarRegistro, false)
+                  PressedBorderColor: =RGBA(0, 69, 120, 1)
+                  PressedColor: =RGBA(255, 255, 255, 1)
+                  PressedFill: =RGBA(16, 110, 190, 1)
+                  RadiusBottomLeft: =30
+                  RadiusBottomRight: =30
+                  RadiusTopLeft: =30
+                  RadiusTopRight: =30
+                  Text: ="Confirmar"
+                  X: =497
+                  Y: =306
+            - Label9:
+                Control: Label@2.5.1
+                Properties:
+                  Align: =Align.Center
+                  Height: =60
+                  Text: ="Estas Seguro de Eliminar el registro con Concepto?  "
+                  Width: =488
+                  X: =193
+                  Y: =84
+            - Label9_1:
+                Control: Label@2.5.1
+                Properties:
+                  Align: =Align.Center
+                  Height: =60
+                  Text: |-
+                    ="Eliminar: " & itemAEliminar.concepto
+                  Width: =488
+                  X: =193
+                  Y: =158
+      - RectangleOverlayEliminar_1:
+          Control: Rectangle@2.3.0
+          Group: PopUpEditar
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            DisabledFill: =RGBA(161, 159, 157, 1)
+            Fill: =RGBA(0, 0, 0, 0.4)
+            FocusedBorderThickness: =4
+            Height: =768
+            OnSelect: =Set(editarRegistro, false)
+            Visible: =editarRegistro
+            Width: =1366
+      - ContainerPopUpEliminar_1:
+          Control: GroupContainer@1.5.0
+          Variant: ManualLayout
+          Group: PopUpEditar
+          Properties:
+            Fill: =Color.White
+            Height: =446
+            Visible: =editarRegistro
+            Width: =790
+            X: =276
+            Y: =162
+          Children:
+            - Rectangle2_2:
+                Control: Rectangle@2.3.0
+                Properties:
+                  BorderColor: =RGBA(200, 200, 200, 1)
+                  BorderStyle: =BorderStyle.None
+                  BorderThickness: =2
+                  DisabledFill: =RGBA(161, 159, 157, 1)
+                  Fill: =RGBA(255, 255, 255, 1)
+                  FocusedBorderThickness: =4
+                  Height: =446
+                  HoverFill: =RGBA(0, 120, 212, 1)
+                  OnSelect: =Set(eliminarRegistro, false)
+                  PressedFill: =RGBA(0, 120, 212, 1)
+                  Visible: =mostrarPerfil
+                  Width: =920
+            - Button2_2:
+                Control: Classic/Button@2.2.0
+                Properties:
+                  BorderColor: =RGBA(0, 0, 0, 0)
+                  BorderStyle: =BorderStyle.None
+                  BorderThickness: =1
+                  Color: =RGBA(255, 255, 255, 1)
+                  DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                  DisabledColor: =RGBA(161, 159, 157, 1)
+                  DisabledFill: =RGBA(242, 242, 241, 0)
+                  Fill: =RGBA(211, 47, 47, 1)
+                  Font: =Font.'Segoe UI'
+                  HoverBorderColor: =RGBA(0, 0, 0, 0)
+                  HoverColor: =RGBA(255, 255, 255, 1)
+                  HoverFill: =RGBA(183, 28, 28, 1)
+                  OnSelect: =Set(editarRegistro, false)
+                  PressedBorderColor: =RGBA(0, 69, 120, 1)
+                  PressedColor: =RGBA(255, 255, 255, 1)
+                  PressedFill: =RGBA(16, 110, 190, 1)
+                  RadiusBottomLeft: =30
+                  RadiusBottomRight: =30
+                  RadiusTopLeft: =30
+                  RadiusTopRight: =30
+                  Text: ="Rechazar"
+                  X: =144
+                  Y: =347
+            - Button2_4:
+                Control: Classic/Button@2.2.0
+                Properties:
+                  BorderColor: =RGBA(0, 0, 0, 0)
+                  BorderStyle: =BorderStyle.None
+                  Color: =RGBA(255, 255, 255, 1)
+                  DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                  DisabledColor: =RGBA(161, 159, 157, 1)
+                  DisabledFill: =RGBA(242, 242, 241, 0)
+                  Fill: =RGBA(0, 120, 212, 1)
+                  Font: =Font.'Segoe UI'
+                  HoverBorderColor: =RGBA(0, 0, 0, 0)
+                  HoverColor: =RGBA(255, 255, 255, 1)
+                  HoverFill: =RGBA(16, 110, 190, 1)
+                  OnSelect: |-
+                    =Patch(
+                        colPagos,
+                        itemAEditar,
+                        {
+                            concepto: inputConcepto.Text,
+                            importe: Value(inputImporte.Text),
+                            formaPago: dropdownFormaPago.Selected.Value,
+                            estatus: dropdownEstatus.Selected.Value
+                        }
+                    );
+                    Set(editarRegistro, false)
+                  PressedBorderColor: =RGBA(0, 69, 120, 1)
+                  PressedColor: =RGBA(255, 255, 255, 1)
+                  PressedFill: =RGBA(16, 110, 190, 1)
+                  RadiusBottomLeft: =30
+                  RadiusBottomRight: =30
+                  RadiusTopLeft: =30
+                  RadiusTopRight: =30
+                  Text: ="Confirmar"
+                  X: =413
+                  Y: =347
+            - TextInput1:
+                Control: ModernTextInput@1.0.0
+                Properties:
+                  Default: =itemAEditar.fecha
+                  Width: =170
+                  X: =93
+                  Y: =85
+            - Label10:
+                Control: Label@2.5.1
+                Properties:
+                  Text: ="Fecha"
+                  X: =93
+                  Y: =31
+            - inputConcepto:
+                Control: ModernTextInput@1.0.0
+                Properties:
+                  Default: =itemAEditar.concepto
+                  Width: =238
+                  X: =364
+                  Y: =85
+            - Label10_1:
+                Control: Label@2.5.1
+                Properties:
+                  Text: ="Concepto"
+                  X: =364
+                  Y: =31
+            - inputImporte:
+                Control: ModernTextInput@1.0.0
+                Properties:
+                  Default: =itemAEditar.importe
+                  Width: =238
+                  X: =93
+                  Y: =178
+            - Label10_2:
+                Control: Label@2.5.1
+                Properties:
+                  Text: ="Importe"
+                  X: =93
+                  Y: =138
+            - Label10_3:
+                Control: Label@2.5.1
+                Properties:
+                  Text: ="Forma de Pago"
+                  X: =364
+                  Y: =138
+            - Label10_4:
+                Control: Label@2.5.1
+                Properties:
+                  Height: =29
+                  Text: ="Estatus"
+                  X: =280
+                  Y: =230
+            - dropdownFormaPago:
+                Control: Classic/ComboBox@2.4.0
+                Properties:
+                  DefaultSelectedItems: |-
+                    =[{Value: itemAEditar.formaPago}]
+                  DisplayFields: =["Value","Transferencia","Tarjeta"]
+                  Height: =32
+                  Items: |-
+                    =Table(
+                        {Value: "Efectivo"},
+                        {Value: "Transferencia"},
+                        {Value: "Tarjeta"}
+                    )
+                  SearchFields: =["Value"]
+                  Width: =238
+                  X: =364
+                  Y: =178
+            - dropdownEstatus:
+                Control: Classic/ComboBox@2.4.0
+                Properties:
+                  Color: |-
+                    =Switch(
+                        dropdownEstatus.Selected.Value,
+                        "Aprobado", RGBA(56, 142, 60, 1),
+                        "Pendiente", RGBA(255, 167, 38, 1),
+                        "Rechazado", RGBA(211, 47, 47, 1),
+                        RGBA(0,0,0,1)
+                    )
+                  DefaultSelectedItems: |-
+                    =[{Value: itemAEditar.estatus}]
+                  DisplayFields: =["Value"]
+                  Fill: |-
+                    =Switch(
+                        dropdownEstatus.Selected.Value,
+                        "Aprobado", RGBA(200, 230, 201, 1),
+                        "Pendiente", RGBA(255, 224, 178, 1),
+                        "Rechazado", RGBA(255, 205, 210, 1),
+                        RGBA(255,255,255,1)
+                    )
+                  Height: =32
+                  Items: |-
+                    =Table(
+                        {Value: "Aprobado"},
+                        {Value: "Pendiente"},
+                        {Value: "Rechazado"}
+                    )
+                  SearchFields: =["Value"]
+                  Width: =238
+                  X: =220
+                  Y: =259
